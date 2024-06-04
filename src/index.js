@@ -53,6 +53,17 @@ app.put("/api/products/:id", async (req, res)=>{
 
     const productId = req.params.id;
     const productData = req.body;
+    
+    if(!
+        (productData.image && 
+            productData.description && 
+            productData.price && 
+            productData.name)
+        )
+        {
+        return res.status(400).send("some field is missing")
+    }
+
 
     const product = await prisma.product.update({
         where: {
@@ -64,8 +75,37 @@ app.put("/api/products/:id", async (req, res)=>{
             description: productData.description,
             image: productData.image,
         },
+    });
+
+    res.send({
+        data: product,
+        message: "update product success"
+    
     })
-})
+});
+
+app.patch("/api/products/:id", async (req, res)=>{
+    const productId = req.params.id;
+    const productData = req.body;
+
+    const product = await prisma.product.update({
+        where: {
+            id: parseInt(productId),
+        },
+        data: {
+            name: productData.name,
+            price: productData.price,
+            description: productData.description,
+            image: productData.image,
+        },
+    });
+
+    res.send({
+        data: product,
+        message: "edit product success"
+    
+    })
+});
 
 
 
