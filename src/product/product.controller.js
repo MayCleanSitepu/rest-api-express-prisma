@@ -1,7 +1,13 @@
 const express = require('express');
 
 const prisma = require('../db');
-const { getAllProducts, getProductById, createProduct, deleteProduct } = require('./product.service');
+
+const { 
+    getAllProducts, 
+    getProductById, 
+    createProduct, 
+    deleteProduct, 
+    editProductById } = require('./product.service');
 
 const router = express.Router();
 
@@ -66,46 +72,22 @@ router.put("/:id", async (req, res)=>{
     }
 
 
-    const product = await prisma.product.update({
-        where: {
-            id: parseInt(productId),
-        },
-        data: {
-            name: productData.name,
-            price: productData.price,
-            description: productData.description,
-            image: productData.image,
-        },
-    });
-
-    res.send({
-        data: product,
-        message: "update product success"
-    
-    })
+    const product = await editProductById(parseInt(productId), productData);
 });
 
 router.patch("/:id", async (req, res)=>{
-    const productId = req.params.id;
-    const productData = req.body;
-
-    const product = await prisma.product.update({
-        where: {
-            id: parseInt(productId),
-        },
-        data: {
-            name: productData.name,
-            price: productData.price,
-            description: productData.description,
-            image: productData.image,
-        },
-    });
-
-    res.send({
-        data: product,
-        message: "edit product success"
+    try {
+        const productId = req.params.id;
+        const productData = req.body;
+        const product = await editProductById(parseInt(productId), productData);
     
-    })
+        res.send({
+            data: product,
+            message: "edit product success"
+        })
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
 });
 
 module.exports = router;

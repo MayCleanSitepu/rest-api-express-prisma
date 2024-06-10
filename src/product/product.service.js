@@ -48,14 +48,29 @@ const deleteProduct = async (id) => {
     });
 }
 
-const patchProduct = async (id, productData) => {
-    
+const editProductById = async (id, productData) => {
+    await getProductById(id); //measure that product by id exists
+    const product = await prisma.product.update({
+        where: {
+            id: parseInt(id),
+        },
+        data: {
+            name: productData.name,
+            price: productData.price,
+            description: productData.description,
+            image: productData.image,
+        },
+    });
+
+    return product;
 }
+
 
 module.exports = { 
     getAllProducts, 
     getProductById,
     createProduct,
     deleteProduct,
+    editProductById,
 
 };
