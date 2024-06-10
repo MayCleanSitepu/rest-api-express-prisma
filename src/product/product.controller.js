@@ -1,13 +1,12 @@
 const express = require('express');
 
-const prisma = require('../db');
-
 const { 
     getAllProducts, 
     getProductById, 
     createProduct, 
     deleteProduct, 
-    editProductById } = require('./product.service');
+    editProductById } = require('./product.services');
+const { parse } = require('dotenv');
 
 const router = express.Router();
 
@@ -21,7 +20,7 @@ router.get("/:id", async (req, res)=>{
 
     try {
         const productId = parseInt(req.params.id);
-        const product = await getProductById(productId);
+        const product = await getProductById(parseInt( productId));
     
         res.send(product); 
     } catch (err) {
