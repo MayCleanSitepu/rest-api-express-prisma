@@ -1,5 +1,5 @@
 const prisma = require('../db');    
-const { findProducts, findProductById, insertProduct } = require('./product.repository');
+const { findProducts, findProductById, insertProduct, findProductByName } = require('./product.repository');
 
 const getAllProducts = async () => {
     const products = await findProducts();

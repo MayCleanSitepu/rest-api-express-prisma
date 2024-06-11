@@ -1,8 +1,8 @@
-const { db } = require('../db');
+const prisma = require('../db');
 const { hashToken } = require('../utils/hashToken');
 
 function addRefreshTokenToWhitelist({ jti, refreshToken, userId }) {
-  return db.refreshToken.create({
+  return prisma.refreshToken.create({
     data: {
       id: jti,
       hashedToken: hashToken(refreshToken),
@@ -12,7 +12,7 @@ function addRefreshTokenToWhitelist({ jti, refreshToken, userId }) {
 }
 
 function findRefreshTokenById(id) {
-  return db.refreshToken.findUnique({
+  return prisma.refreshToken.findUnique({
     where: {
       id,
     },
@@ -20,7 +20,7 @@ function findRefreshTokenById(id) {
 }
 
 function deleteRefreshToken(id) {
-  return db.refreshToken.update({
+  return prisma.refreshToken.update({
     where: {
       id,
     },
@@ -31,7 +31,7 @@ function deleteRefreshToken(id) {
 }
 
 function revokeTokens(userId) {
-  return db.refreshToken.updateMany({
+  return prisma.refreshToken.updateMany({
     where: {
       userId
     },

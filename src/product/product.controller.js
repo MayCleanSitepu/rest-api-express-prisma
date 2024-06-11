@@ -1,5 +1,5 @@
 const express = require('express');
-
+const isAuthenticated = require('../middlewares');
 const { 
     getAllProducts, 
     getProductById, 
@@ -10,13 +10,13 @@ const { parse } = require('dotenv');
 
 const router = express.Router();
 
-router.get("/", async (req, res)=>{
+router.get("/",isAuthenticated, async (req, res)=>{
     const products = await getAllProducts();
     
     res.send(products);
 })
 
-router.get("/:id", async (req, res)=>{
+router.get("/:id",isAuthenticated, async (req, res)=>{
 
     try {
         const productId = parseInt(req.params.id);
@@ -29,7 +29,7 @@ router.get("/:id", async (req, res)=>{
 
 });
 
-router.post("/", async (req, res)=>{ 
+router.post("/",isAuthenticated, async (req, res)=>{ 
 
     try {        
         const newProductData = req.body;
@@ -45,7 +45,7 @@ router.post("/", async (req, res)=>{
     
 })
 
-router.delete("/:id", async (req, res)=>{
+router.delete("/:id",isAuthenticated, async (req, res)=>{
     try {
         const productId = req.params.id;
     
@@ -55,7 +55,7 @@ router.delete("/:id", async (req, res)=>{
     }
 });
 
-router.put("/:id", async (req, res)=>{
+router.put("/:id",isAuthenticated, async (req, res)=>{
 
     const productId = req.params.id;
     const productData = req.body;
@@ -74,7 +74,7 @@ router.put("/:id", async (req, res)=>{
     const product = await editProductById(parseInt(productId), productData);
 });
 
-router.patch("/:id", async (req, res)=>{
+router.patch("/:id",isAuthenticated, async (req, res)=>{
     try {
         const productId = req.params.id;
         const productData = req.body;

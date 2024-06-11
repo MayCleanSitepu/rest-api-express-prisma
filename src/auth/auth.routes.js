@@ -1,3 +1,5 @@
+
+
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -43,8 +45,8 @@ router.post('/register', async (req, res, next) => {
       accessToken,
       refreshToken
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -77,8 +79,8 @@ router.post('/login', async (req, res, next) => {
       accessToken,
       refreshToken
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -118,8 +120,8 @@ router.post('/refreshToken', async (req, res, next) => {
       accessToken,
       refreshToken: newRefreshToken
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 });
 
