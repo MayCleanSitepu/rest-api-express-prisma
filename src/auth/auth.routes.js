@@ -23,7 +23,7 @@ const router = express.Router();
 
 router.post('/register', async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
     if (!email || !password) {
       res.status(400);
       throw new Error('You must provide an email and a password.');
@@ -36,7 +36,7 @@ router.post('/register', async (req, res, next) => {
       throw new Error('Email already in use.');
     }
 
-    const user = await createUserByEmailAndPassword({ email, password });
+    const user = await createUserByEmailAndPassword({ email, password, role });
     const jti = uuidv4();
     const { accessToken, refreshToken } = generateTokens(user, jti);
     await addRefreshTokenToWhitelist({ jti, refreshToken, userId: user.id });
@@ -49,6 +49,7 @@ router.post('/register', async (req, res, next) => {
     next(error);
   }
 });
+
 
 router.post('/login', async (req, res, next) => {
   try {

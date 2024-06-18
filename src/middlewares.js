@@ -1,4 +1,6 @@
+
 const jwt = require('jsonwebtoken');
+
 
 function notFound(req, res, next) {
   res.status(404);
@@ -17,31 +19,35 @@ function errorHandler(err, req, res, next) {
   });
 }
 
-function isAuthenticated(req, res, next) {
-  const { authorization } = req.headers;
+function checkRole(requiredRole) {
+  return (req, res, next) => {
+    if (req.user.role !== requiredRole) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+    next();
+  };
+}
 
-  if (!authorization) {
-    res.status(401).json({ message: '🚫 Un-Authorized 🚫' });
-    return;
+function isAuthenticated(req, res, next) {
+  const authorizationHeader = req.headers.authorization;
+
+  if (!authorizationHeader) {
+    return res.status(401).json({ message: '🚫 Un-Authorized 🚫' });
   }
 
   try {
-    const token = authorization.split(' ')[1];
+    const token = authorizationHeader.split(' ')[1];
     const payload = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
     req.payload = payload;
+    next();
   } catch (err) {
     res.status(401).json({ message: '🚫 Un-Authorized 🚫' });
-    return;
   }
-
-  next();
 }
-
 
 module.exports = {
   notFound,
   errorHandler,
-  isAuthenticated
+  isAuthenticated,
+  checkRole,
 };
-
-module.exports = isAuthenticated

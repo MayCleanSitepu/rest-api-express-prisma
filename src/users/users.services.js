@@ -9,12 +9,17 @@ function findUserByEmail(email) {
   });
 }
 
-function createUserByEmailAndPassword(user) {
-  user.password = bcrypt.hashSync(user.password, 12);
+async function createUserByEmailAndPassword({ email, password, role = 'user' }) {
+  const hashedPassword = await bcrypt.hash(password, 10);
   return prisma.user.create({
-    data: user,
+    data: {
+      email,
+      password: hashedPassword,
+      role
+    }
   });
 }
+
 
 function findUserById(id) {
   return prisma.user.findUnique({

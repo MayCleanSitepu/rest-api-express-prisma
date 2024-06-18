@@ -18,10 +18,15 @@ app.get("/api", (req, res)=>{
 
 
 
-const productController = require("./product/product.controller"); 
+// const productController = require("./product/product.controller"); 
 
-app.use('/products', productController)
+// app.use('/products', productController)
 
+const faskesController = require("./faskes/faskes.controller");
+app.use('/faskes', faskesController);
+
+const provinsiControler = require("./provinsi/provinsi.controller");
+app.use('/provinsi', provinsiControler);
 
 app.listen(PORT, () => {
     console.log("Running in port " + PORT);

@@ -10,7 +10,7 @@ const { parse } = require('dotenv');
 
 const router = express.Router();
 
-router.get("/",isAuthenticated, async (req, res)=>{
+router.get("/",isAuthenticated, async (res)=>{
     const products = await getAllProducts();
     
     res.send(products);
