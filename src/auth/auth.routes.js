@@ -126,8 +126,6 @@ router.post('/refreshToken', async (req, res, next) => {
   }
 });
 
-// This endpoint is only for demo purpose.
-// Move this logic where you need to revoke the tokens( for ex, on password reset)
 router.post('/revokeRefreshTokens', async (req, res, next) => {
   try {
     const { userId } = req.body;

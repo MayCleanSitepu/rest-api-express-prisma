@@ -13,7 +13,7 @@ const PORT = process.env.PORT;
 
 
 app.get("/api", (req, res)=>{
-    res.send("Hello guy");
+    res.send("success get api");
 })
 
 
