@@ -10,12 +10,12 @@ const {
 } = require('./provinsi.services.js');
 
 // Provinsi Routes
-router.get('/', isAuthenticated, async (req, res) => { // Added req parameter
+router.get('/', async (req, res) => { // Added req parameter
     const provinsi = await getAllProvinsi();
     res.send(provinsi);
 });
 
-router.get('/:id', isAuthenticated, async (req, res) => {
+router.get('/:id', async (req, res) => {
     const provinsi = await getProvinsiById(req.params.id);
     res.send(provinsi);
 });

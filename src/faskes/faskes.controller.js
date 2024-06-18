@@ -12,12 +12,12 @@ const {
 const router = express.Router();
 
 // Faskes Routes
-router.get('/', isAuthenticated, async (req, res) => {
+router.get('/', async (req, res) => {
     const faskes = await getAllFaskes();
     res.send(faskes);
 });
 
-router.get('/:id', isAuthenticated, async (req, res) => {
+router.get('/:id', async (req, res) => {
     const faskes = await getFaskesById(req.params.id);
     res.send(faskes);
 });
