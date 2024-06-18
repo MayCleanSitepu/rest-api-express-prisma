@@ -18,10 +18,6 @@ app.get("/api", (req, res)=>{
 
 
 
-// const productController = require("./product/product.controller"); 
-
-// app.use('/products', productController)
-
 const faskesController = require("./faskes/faskes.controller");
 app.use('/faskes', faskesController);
 
